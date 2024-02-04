@@ -1,7 +1,40 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {onAuthStateChanged, signOut } from  "firebase/auth"
+import { auth } from "../utils/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { adduser, removeUser } from "../utils/userSlice";
 
 const Header = () => {
+  const user = useSelector((store) => store.user)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+        const {email,displayName} = auth.currentUser
+        dispatch(adduser({
+          uid:uid,
+          email:email,
+          displayName:displayName
+        }))
+        navigate("/mainPage")
+      } else {
+        dispatch(removeUser());
+        navigate("/")
+      }
+    });
+  },[])
+
+  const handeLogout = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
+    
+  }
   return (
     <>
       <nav className="flex justify-between items-center min-h-2 px-10 py-2 ">
@@ -14,8 +47,12 @@ const Header = () => {
           placeholder="search your person....."
         />
         <ul className="flex space-x-4 items-center">
+         {!user && <>
           <Link to={"/"}>
             <button className="font-bold cursor-pointer">Login</button>
+          </Link>
+          <Link to={"/Create"}>
+            <button className="font-bold cursor-pointer">Create</button>
           </Link>
           <Link to={"/signup"}>
             {" "}
@@ -23,6 +60,8 @@ const Header = () => {
               Signup
             </button>
           </Link>
+         </> }
+          {user && <button className="border px-3 py-2 bg-purple-400 text-white font-bold rounded-md" onClick={handeLogout}>Logout</button> }
         </ul>
       </nav>
     </>

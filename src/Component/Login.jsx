@@ -4,8 +4,11 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { adduser } from "../utils/userSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const email = useRef(null);
   const password = useRef(null);
   const navigate = useNavigate();
@@ -16,8 +19,12 @@ const Login = () => {
       password.current.value
     )
       .then((userCredential) => {
-        // Signed in
-        navigate("/mainPage");
+        const {uid, email, displayName} = userCredential.user
+        dispatch(adduser({
+          uid:uid,
+          email:email,
+          displayName:displayName
+        }))
       })
       .catch((error) => {
         const errorCode = error.code;

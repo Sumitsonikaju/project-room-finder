@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+h1 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+}
+.create-input{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    flex: 1 1 0%;
+    
+    border-radius: 0.5rem;
+    border-width: 1px;
+    width: 100%;
+    --tw-border-opacity: 1;
+    border-color: rgb(229 229 229 / var(--tw-border-opacity));
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+    --tw-text-opacity: 1;
+    color: rgb(64 64 64 / var(--tw-text-opacity));
+
+}
+

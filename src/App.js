@@ -5,15 +5,20 @@ import Login from "./Component/Login";
 import SignUp from "./Component/SignUp";
 import Main from "./Component/Main";
 import Footer from "./Component/Footer";
+import { Provider } from "react-redux";
+import { store } from "./utils/store";
+import Create from "./Component/Create";
 
 const App = () => {
   return (
     <>
-      <div className="app">
+     <Provider store={store}>
+     <div className="app">
         <Header />
         <Outlet />
         <Footer />
       </div>
+     </Provider>
     </>
   );
 };
@@ -34,6 +39,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "/mainPage",
         element: <Main />,
+      },
+      {
+        path: "/create",
+        element: <Create />,
       },
     ],
   },
