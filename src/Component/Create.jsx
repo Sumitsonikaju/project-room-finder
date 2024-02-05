@@ -12,13 +12,24 @@ const Create = () => {
     moveDate: "",
     occupation: "",
     children: "noChild",
-    choice: false,
+    choice: [],
+    food: "Veg",
     photo: "",
   });
 
   const handleChange = (e) => {
-    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    setFormData({ ...formData, [e.target.name]: value });
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: checked
+          ? [...prevData[name], value]
+          : prevData[name].filter((item) => item !== value),
+      }));
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -38,172 +49,121 @@ const Create = () => {
         <form onSubmit={handleSubmit}>
           <div className="space-y-8">
             <div className="max-w-xl mx-auto border flex-col pl-10 pr-10 py-6 rounded-md shadow-md">
-              <label className="font-semibold">
-                Search location:
-                <input
-                  type="text"
-                  name="location"
-                  className="block create-input"
-                  placeholder="Enter the location..."
-                  value={formData.location}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <br />
+              {[
+                { label: "Search location:", type: "text", name: "location" },
+                { label: "Budget:", type: "number", name: "budget", placeholder: "$" },
+                { label: "Name:", type: "text", name: "name" },
+                { label: "Email:", type: "email", name: "email" },
+              ].map((input) => (
+                <label key={input.name} className="font-semibold">
+                  {input.label}
+                  <input
+                    type={input.type}
+                    name={input.name}
+                    className="block create-input"
+                    placeholder={input.placeholder}
+                    value={formData[input.name]}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              ))}
+            </div>
 
-              <label className="font-semibold">
-                Budget:
-                <input
-                  type="number"
-                  name="budget"
-                  className="block create-input"
-                  placeholder="$"
-                  value={formData.budget}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <br />
+            <div className="max-w-xl mx-auto border flex-col pl-10 pr-10 py-6 rounded-md shadow-md">
+              {[
+                {
+                  label: "Looking for:",
+                  type: "select",
+                  name: "lookingFor",
+                  options: ["For myself", "As a couple", "As a group of friends"],
+                },
+                {
+                  label: "Gender:",
+                  type: "select",
+                  name: "gender",
+                  options: ["Female", "Male", "Other"],
+                },
+                { label: "Age:", type: "number", name: "age" },
+                { label: "Preferred Move Date:", type: "date", name: "moveDate" },
+                { label: "Occupation:", type: "text", name: "occupation" },
+                {
+                  label: "Children:",
+                  type: "select",
+                  name: "children",
+                  options: ["No Children", "Children that will Visit", "Children that will live with me"],
+                },
+                {
+                  label: "Choice:",
+                  type: "checkboxGroup",
+                  name: "choice",
+                  options: [
+                    "🚭Non-smoker",
+                    "🐱I have a cat",
+                    "🐶I have a dog",
+                    "🎓I'm a student",
+                    "🏳️‍🌈LGBT+ friendly",
+                  ],
+                },
+                {
+                  label: "Food:",
+                  type: "select",
+                  name: "food",
+                  options: ["Veg", "Non-Veg", "Omnivore"],
+                },
+              ].map((input) => (
+                <label key={input.name} className="font-semibold">
+                  {input.label}
+                  {input.type === "select" ? (
+                    <select
+                      name={input.name}
+                      className="block create-input"
+                      value={formData[input.name]}
+                      onChange={handleChange}
+                      required
+                    >
+                      {input.options.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  ) : input.type === "checkboxGroup" ? (
+                    <>
+                      <br />
+                      {input.options.map((option) => (
+                        <label key={option}>
+                          <input
+                            type="checkbox"
+                            name={input.name}
+                            value={option}
+                            checked={formData[input.name].includes(option)}
+                            onChange={handleChange}
+                          />
+                          <span className="pl-4">{option}</span>
+                          <br />
+                        </label>
+                      ))}
+                    </>
+                  ) : (
+                    <input
+                      type={input.type}
+                      name={input.name}
+                      className="block create-input"
+                      value={formData[input.name]}
+                      onChange={handleChange}
+                      required
+                    />
+                  )}
+                </label>
+              ))}
 
-              <label className="font-semibold">
-                Name:
-                <input
-                  type="text"
-                  name="name"
-                  className="block create-input"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
               <br />
-
-              <label className="font-semibold">
-                Email:
-                <input
-                  type="email"
-                  name="email"
-                  className="block create-input"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
               <br />
-
-              <label className="font-semibold">
-                Looking for:
-                <select
-                  name="lookingFor"
-                  className="block create-input"
-                  value={formData.lookingFor}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="For myself">For myself</option>
-                  <option value="As a couple">As a couple</option>
-                  <option value="As a group of friends">As a group of Friends</option>
-                </select>
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Gender:
-                <select
-                  name="gender"
-                  className="block create-input"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="Female">Female</option>
-                  <option value="Male">Male</option>
-                  <option value="Other">Other</option>
-                </select>
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Age:
-                <input
-                  type="number"
-                  name="age"
-                  className="block create-input"
-                  value={formData.age}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Preferred Move Date:
-                <input
-                  type="date"
-                  name="moveDate"
-                  className="block create-input"
-                  value={formData.moveDate}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Occupation:
-                <input
-                  type="text"
-                  name="occupation"
-                  className="block create-input"
-                  value={formData.occupation}
-                  onChange={handleChange}
-                />
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Children:
-                <select
-                  name="children"
-                  className="block create-input"
-                  value={formData.children}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="noChild">No Children</option>
-                  <option value="chVisit">Children that will Visit</option>
-                  <option value="chWithMe">Children that will live with me</option>
-                </select>
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Choice:
-                <input
-                  type="checkbox"
-                  name="choice"
-                  className="block create-input"
-                  checked={formData.choice}
-                  onChange={handleChange}
-                />
-                Non-Smoker
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Photo (URL):
-                <input
-                  type="text"
-                  name="photo"
-                  className="block create-input"
-                  value={formData.photo}
-                  onChange={handleChange}
-                />
-              </label>
-              <br />
-
-              <button type="submit" className="px-44 border rounded-md py-1.5 bg-blue-500 text-white font-bold cursor-pointer">
+              <button
+                type="submit"
+                className="px-[12.2rem] border rounded-md py-2 bg-blue-500 text-white font-bold cursor-pointer"
+              >
                 Create Profile
               </button>
             </div>
