@@ -51,9 +51,7 @@ const Header = () => {
           <Link to={"/"}>
             <button className="font-bold cursor-pointer">Login</button>
           </Link>
-          <Link to={"/Create"}>
-            <button className="font-bold cursor-pointer">Create</button>
-          </Link>
+          
           <Link to={"/signup"}>
             {" "}
             <button className="border px-3 py-2 bg-purple-400 text-white font-bold rounded-md">
@@ -61,6 +59,11 @@ const Header = () => {
             </button>
           </Link>
          </> }
+
+         <Link to={"/Create"}>
+            <button className="font-bold cursor-pointer">Create</button> 
+          </Link>
+          
           {user && <button className="border px-3 py-2 bg-purple-400 text-white font-bold rounded-md" onClick={handeLogout}>Logout</button> }
         </ul>
       </nav>
