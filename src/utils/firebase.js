@@ -1,17 +1,21 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCy9jHnePAa9vW8lELFI6c-dvqLj2Wmu9c",
-  authDomain: "room-buddy-770c6.firebaseapp.com",
-  projectId: "room-buddy-770c6",
-  storageBucket: "room-buddy-770c6.appspot.com",
-  messagingSenderId: "383295055040",
-  appId: "1:383295055040:web:7167d679bb05bb38d53925",
-  measurementId: "G-GTGWTQQWQ7",
+  apiKey: "AIzaSyDL_TnamyVemPWTSlLyklJiZhG54G52Qo8",
+  authDomain: "room-buddy-500e5.firebaseapp.com",
+  projectId: "room-buddy-500e5",
+  storageBucket: "room-buddy-500e5.appspot.com",
+  messagingSenderId: "286345644228",
+  appId: "1:286345644228:web:57f0bac212022c26dd6191",
+  measurementId: "G-HJRMK38S5M"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth();
+export const auth = getAuth(app);

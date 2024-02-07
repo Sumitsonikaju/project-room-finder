@@ -59,12 +59,11 @@ const Header = () => {
             </button>
           </Link>
          </> }
-
-         <Link to={"/Create"}>
+          {user && <button className="border px-3 py-2 bg-purple-400 text-white font-bold rounded-md" onClick={handeLogout}>Logout</button> }
+          {user &&   <Link to={"/Create"}>
             <button className="font-bold cursor-pointer">Create</button> 
           </Link>
-          
-          {user && <button className="border px-3 py-2 bg-purple-400 text-white font-bold rounded-md" onClick={handeLogout}>Logout</button> }
+          }
         </ul>
       </nav>
     </>
