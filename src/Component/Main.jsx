@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const UserCard = ({ profile, age, profession, hobbies, state, gender }) => {
   return (
@@ -34,6 +35,10 @@ const Main = () => {
           Join Room Buddy today and embark on a journey to find the best
           roommates for a stress-free and enjoyable living experience.
         </p>
+
+        <Link to={"/Create"}>
+            <button className="font-bold cursor-pointer">Click here to complete your profile</button> 
+          </Link>
       </section>
 
       <section className="mb-12 ">

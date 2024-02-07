@@ -1,15 +1,18 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch,  } from "react-redux";
+import { adduser } from "../utils/userSlice";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
+  const dispatch = useDispatch();
 
   const handleSignUp = () => {
     createUserWithEmailAndPassword(
@@ -18,12 +21,18 @@ const SignUp = () => {
       password.current.value
     )
       .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        toast("Hey ! Signed up Sucessfull", {
-          position: "bottom-center",
+        const user = user.uid;
+        updateProfile(auth.currentUser, {
+          displayName: name.current.value,
+        }).then(() => {
+          const {uid, email, displayName} =  auth.currentUser;
+          dispatch(adduser({
+            uid:uid,
+            email:email,
+            displayName:displayName
+          }))
+        }).catch((error) => {
         });
-        navigate("/mainPage");
       })
       .catch((error) => {
         const errorCode = error.code;
