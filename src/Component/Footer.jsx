@@ -2,38 +2,61 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <div>
-          <h2 className="text-lg font-bold ml-20 mb-2">About Us</h2>
-          <p className="text-sm ml-20">Discover the ideal living experience with Room Buddy. We specialize in connecting you with the perfect roommates, ensuring a harmonious and enjoyable shared living space.</p>
+    <footer className="bg-violet-600  ">
+      <div className="flex justify-between px-12 py-4">
+        <div className=" text-white text-xl">
+          {" "}
+          Free to list, search & communicate
         </div>
-        <div className="space-x-4">
-          <a
-            href="https://www.linkedin.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 hover:text-blue-700"
-          >
-            
-            LinkedIn
-          </a>
-          <a
-            href="https://www.instagram.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-purple-500 hover:text-purple-700"
-          >
-            Instagram
-          </a>
-          {/* <Link to="/services" className="text-green-500 hover:text-green-700">
-            Services
-          </Link> */}
+        <div className=" justify-center text-white text-xl space-y-4">
+          <div className="  flex justify-end text-white text-xl">
+            <a href="" className="">
+              how to find a room
+            </a>
+            <a href="" className="ml-5">
+              how to rent your room
+            </a>
+            <a href="" className="ml-5">
+              ID checks
+            </a>
+            <a href="" className="ml-5">
+              Free roommate agreement
+            </a>
+            <br />
+            </div>
+            <div className="  flex justify-end text-white text-xl">
+            <a href="" className="ml-5">
+              Safety & Security
+            </a>
+            <a href="" className="ml-5">
+              inspections
+            </a>
+            <a href="" className="ml-5">
+              Community standards
+            </a>
+          </div>
+          <div class=" mb-10 flex justify-end gap-x-5 text-xl">
+            <a href="" class="underline-orange-500">
+              Help
+            </a>
+            <a href="" class="underline-orange-500">
+              Team
+            </a>
+            <a href="" class="underline-orange-500">
+              Blog
+            </a>
+            <a href="" class="underline-orange-500">
+              Terms
+            </a>
+            <a href="" class="underline-orange-500">
+              Privacy
+            </a>
+          </div>
         </div>
       </div>
+      
     </footer>
   );
 };
 
 export default Footer;
-
