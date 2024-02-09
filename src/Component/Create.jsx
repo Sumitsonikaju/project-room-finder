@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
+
 const Create = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
@@ -28,6 +29,7 @@ const Create = () => {
   const budget = useRef(null);
   const age = useRef(null);
   const date = useRef(null);
+  const description = useRef(null);
 
   const apiKey = "81c244c254ba4bfe82ea4f10f5100beb";
   const geoapifyAutocompleteEndpoint = `https://api.geoapify.com/v1/geocode/autocomplete?apiKey=${apiKey}`;
@@ -78,7 +80,8 @@ const Create = () => {
       date.current.value === "" &&
       location_search === "" &&
       gender === "" &&
-      lookingForVal === ""
+      lookingForVal === "" &&
+      description.current.value === ""
     ) {
       toast.error("Please Fill out All fields", {
         position: "top-center",
@@ -104,6 +107,7 @@ const Create = () => {
         uid: user.uid,
         looking: lookingForVal,
         habits: selectedHabits,
+        userDescription: description.current.value,
       });
       navigate("/mainPage");
     }
@@ -118,6 +122,7 @@ const Create = () => {
     budget.current.value = "";
     age.current.value = "";
     date.current.value = "";
+    description.current.value = "";
   };
 
   // getting the search values we want specific city
@@ -291,24 +296,30 @@ const Create = () => {
 
                   <div className="mt-4">
                     <label htmlFor="habits">Habit</label>
-                    {Habits.map((items) => {
-                      return (
-                        <>
-                          <br />
-                          <input
-                            type="checkbox"
-                            name=""
-                            id={items.id}
-                            value={items.value}
-                            checked={selectedHabits.includes(items.value)}
-                            onChange={() => handleCheckboxChange(items.value)}
-                          />
-                          <label htmlFor={items.id} className="ml-3 font-bold">
-                            {items.label}
-                          </label>
-                        </>
-                      );
-                    })}
+                    {Habits.map((items) => (
+                      <div key={items.id}>
+                        <input
+                          type="checkbox"
+                          id={items.id}
+                          value={items.value}
+                          checked={selectedHabits.includes(items.value)}
+                          onChange={() => handleCheckboxChange(items.value)}
+                        />
+                        <label htmlFor={items.id} className="ml-3 font-bold">
+                          {items.label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4">
+                    <label htmlFor="">Short Description</label>
+                    <div id="textareaContainer">
+                    <textarea
+                      ref={description}
+                      className="block create-input"
+                      type="textarea"
+                    />
+                    </div>
                   </div>
                 </div>
                 <button

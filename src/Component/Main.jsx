@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import DisplayUserInfo from "./DisplayUserInfo";
 
 const UserCard = ({ profile, age, profession, hobbies, state, gender }) => {
   return (
@@ -42,58 +43,7 @@ const Main = () => {
       </section>
     </div>
     <section className="mb-12">
-        <h2 className="text-3xl font-bold mb-6 text-center text-blue-500">Featured Users</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <UserCard
-            profile="John Doe"
-            age={25}
-            profession="Software Engineer"
-            hobbies="Reading, Coding"
-            state="California"
-            gender="Male"
-          />
-          <UserCard
-            profile="John Doe"
-            age={25}
-            profession="Software Engineer"
-            hobbies="Reading, Coding"
-            state="California"
-            gender="Male"
-          />
-          <UserCard
-            profile="John Doe"
-            age={25}
-            profession="Software Engineer"
-            hobbies="Reading, Coding"
-            state="California"
-            gender="Male"
-          />
-          <UserCard
-            profile="Jane Smith"
-            age={28}
-            profession="Graphic Designer"
-            hobbies="Painting, Photography"
-            state="New York"
-            gender="Female"
-          />
-          <UserCard
-            profile="Jane Smith"
-            age={28}
-            profession="Graphic Designer"
-            hobbies="Painting, Photography"
-            state="New York"
-            gender="Female"
-          />
-          <UserCard
-            profile="Jane Smith"
-            age={28}
-            profession="Graphic Designer"
-            hobbies="Painting, Photography"
-            state="New York"
-            gender="Female"
-          />
-          {/* Add more user cards as needed */}
-        </div>
+    <DisplayUserInfo/>
       </section>
       
       <section className="text-center">

@@ -26,17 +26,14 @@ const DisplayUserInfo = () => {
 
   return (
     <div className="min-h-[100vh]">
-    <div className="grid grid-cols-3 w-[60%] pt-[100px]  max-md:grid-cols-2 max-md:w-full justify-items-center mx-auto ">
+    <div className="grid grid-cols-4 w-[60%] pt-[100px]  max-md:grid-cols-2 max-md:w-full justify-items-center mx-auto">
       {usersData.map((user) => (
-        <div key={user.id} className="shadow-lg max-w-80 mx-4 my-4 px-5 py-5">
+        <div key={user.id} className="shadow-lg max-w-80 mx- my-4 px-5 py-5 ">
+            
           <h2 className="font-bold">{user.userName}</h2>
-          <p>Email: {user.email}</p>
-          <p>Age: {user.Age}</p>
           <p>Location: {user.location}</p>
           <p>Budget: ${user.budget}</p>
-          <p>Date: {user.date}</p>
           <p>Occupation: {user.Occupation}</p>
-          <p>Food Choices: {user.FoodChoices}</p>
           <p>Gender: {user.gender}</p>
           <p>Looking For: {user.looking}</p>
           <p>Habits: {user.habits && user.habits.join(", ")}</p>

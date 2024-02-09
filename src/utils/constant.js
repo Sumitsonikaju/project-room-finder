@@ -3,19 +3,19 @@ export const Habits = [
     id: 1,
     type: "checkbox",
     label: "Non-smoker 🚭",
-    value: "nonSmoker",
+    value: "Non-smoker 🚭",
   },
   {
     id: 2,
     type: "checkbox",
     label: "Animal Lover 🐶",
-    value: "Animal",
+    value: "Animal Lover 🐶",
   },
   {
     id: 3,
     type: "checkbox",
     label: "LGBT+ friendly 🏳️‍🌈",
-    value: "lgbt"
+    value: "LGBT+ friendly 🏳️‍🌈"
   },
 ];
 
