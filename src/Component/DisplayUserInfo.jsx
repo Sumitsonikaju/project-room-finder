@@ -25,9 +25,10 @@ const DisplayUserInfo = () => {
   }, []);
 
   return (
-    <div className="flex flex-wrap justify-evenly pt-20">
+    <div className="min-h-[100vh]">
+    <div className="grid grid-cols-3 w-[60%] pt-[100px]  max-md:grid-cols-2 max-md:w-full justify-items-center mx-auto ">
       {usersData.map((user) => (
-        <div key={user.id} className="shadow-lg max-w-80 mx-4 my-4">
+        <div key={user.id} className="shadow-lg max-w-80 mx-4 my-4 px-5 py-5">
           <h2 className="font-bold">{user.userName}</h2>
           <p>Email: {user.email}</p>
           <p>Age: {user.Age}</p>
@@ -41,6 +42,7 @@ const DisplayUserInfo = () => {
           <p>Habits: {user.habits && user.habits.join(", ")}</p>
         </div>
       ))}
+    </div>
     </div>
   );
 };
