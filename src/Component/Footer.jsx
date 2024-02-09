@@ -2,8 +2,8 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-violet-600  ">
-      <div className="flex justify-between px-12 py-4">
+    <footer className="bg-violet-600 ">
+      <div className="flex justify-between px-12 py-5 ">
         <div className=" text-white text-xl">
           {" "}
           Free to list, search & communicate
@@ -11,13 +11,10 @@ const Footer = () => {
         <div className=" justify-center text-white text-xl space-y-4">
           <div className="  flex justify-end text-white text-xl">
             <a href="" className="">
-              how to find a room
+              How to find a room
             </a>
             <a href="" className="ml-5">
-              how to rent your room
-            </a>
-            <a href="" className="ml-5">
-              ID checks
+              How to rent your room
             </a>
             <a href="" className="ml-5">
               Free roommate agreement
@@ -28,9 +25,7 @@ const Footer = () => {
             <a href="" className="ml-5">
               Safety & Security
             </a>
-            <a href="" className="ml-5">
-              inspections
-            </a>
+            
             <a href="" className="ml-5">
               Community standards
             </a>

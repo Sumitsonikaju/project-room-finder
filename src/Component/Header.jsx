@@ -41,6 +41,8 @@ const Header = () => {
   };
   const isCreatePage = location.pathname === "/Create";
   const isHomePage = location.pathname === "/mainPage";
+  const isDisplayUserInfo = location.pathname === "/displayUser";
+
 
   return (
     <>
@@ -72,7 +74,11 @@ const Header = () => {
               </Link>
             </>
           )}
-
+{user && !isDisplayUserInfo && (
+            <Link to={"/displayUser"}>
+              <button className="font-bold cursor-pointer">User Info</button>
+            </Link>
+          )}
           {user && !isCreatePage && (
             <Link to={"/Create"}>
               <button className="font-bold cursor-pointer">Create</button>

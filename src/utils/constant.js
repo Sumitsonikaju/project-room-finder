@@ -20,7 +20,11 @@ export const Habits = [
 ];
 
 export const LookingFor = [
-  {
+    {
+        value: "Select...",
+        text: "Select...",
+      },
+    {
     value: "For myself",
     text: "For myself",
   },
@@ -54,7 +58,11 @@ export const Gender = [
 ];
 
 export const Occupation = [
-  {
+    {
+        id: 0,
+        value: "Select...",
+      },
+      {
     id: 1,
     value: "Student 🎓",
   },
@@ -69,6 +77,10 @@ export const Occupation = [
 ];
 
 export const FoodChoice = [
+    {
+        id: 0,
+        value: "Select...",
+      },
   {
     id: 1,
     value: "Veg",

@@ -15,11 +15,10 @@ const UserCard = ({ profile, age, profession, hobbies, state, gender }) => {
 };
 
 const Main = () => {
-
-
+  
   return (
     <>
-    <div className="flex justify-center items-center h-[80vh]">
+    <div className="flex justify-center items-center h-[40vh] pt-28">
       <section className="text-center mb-12">
         <h1 className="text-5xl font-bold mb-4 text-blue-500">
           Welcome to Room Buddy
@@ -42,7 +41,7 @@ const Main = () => {
           </Link>
       </section>
     </div>
-    <section className="mb-12 ">
+    <section className="mb-12">
         <h2 className="text-3xl font-bold mb-6 text-center text-blue-500">Featured Users</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <UserCard

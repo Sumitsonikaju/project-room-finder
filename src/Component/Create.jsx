@@ -3,21 +3,21 @@ import {
   FoodChoice,
   LookingFor,
   Occupation,
-  checkBoxFields,
-  Gender,
   Habits,
+  Gender,
 } from "../utils/constant";
 import { useSelector } from "react-redux";
 import { firestore } from "../utils/firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const Create = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   const [suggestions, setSuggestions] = useState([]);
+  const [selectedHabits, setSelectedHabits] = useState([]);
   const [occupation, setOccupation] = useState("");
   const [foodChoice, setFoodChoice] = useState("");
   const [lookingForVal, setlookingForVal] = useState("");
@@ -55,22 +55,42 @@ const Create = () => {
     }
   };
 
-  // upload the data to the firebase 
-  const handleData = async () => {
-
-    if(name.current.value === "" && date.current.value === "" && location_search === "" &&  gender === ""&& lookingForVal === "" ){
-       toast.error("Please Fill out All fields", {
-        position:"top-center",
-        autoClose:1000,
-        hideProgressBar:false
-      })
+  const handleCheckboxChange = (habitValue) => {
+    // Check if the habitValue is already in the selectedHabits array
+    if (selectedHabits.includes(habitValue)) {
+      // If it is, remove it
+      setSelectedHabits((prevSelectedHabits) =>
+        prevSelectedHabits.filter((habit) => habit !== habitValue)
+      );
+    } else {
+      // If it is not, add it
+      setSelectedHabits((prevSelectedHabits) => [
+        ...prevSelectedHabits,
+        habitValue,
+      ]);
     }
-    else{
-      toast.success("Successfully Data Uploaded", {
-        position:"bottom-center",
+  };
+
+  // upload the data to the firebase
+  const handleData = async () => {
+    if (
+      name.current.value === "" &&
+      date.current.value === "" &&
+      location_search === "" &&
+      gender === "" &&
+      lookingForVal === ""
+    ) {
+      toast.error("Please Fill out All fields", {
+        position: "top-center",
         autoClose: 1000,
-        hideProgressBar:false
-      })
+        hideProgressBar: false,
+      });
+    } else {
+      toast.success("Successfully Data Uploaded", {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+      });
       await addDoc(collection(firestore, "users"), {
         userName: name.current.value,
         Age: age.current.value,
@@ -83,10 +103,11 @@ const Create = () => {
         email: user.email,
         uid: user.uid,
         looking: lookingForVal,
+        habits: selectedHabits,
       });
-      navigate("/mainPage")
+      navigate("/mainPage");
     }
-   
+
     setOccupation("");
     setFoodChoice("");
     setlookingForVal("");
@@ -109,7 +130,7 @@ const Create = () => {
   };
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div className="bg-gray-50 flex flex-col min-h-screen ">
         <div className="container py-6">
           <div className="max-w-lg mx-auto py-8 mb-1">
@@ -279,8 +300,10 @@ const Create = () => {
                             name=""
                             id={items.id}
                             value={items.value}
+                            checked={selectedHabits.includes(items.value)}
+                            onChange={() => handleCheckboxChange(items.value)}
                           />
-                          <label htmlFor="" className="ml-3 font-bold">
+                          <label htmlFor={items.id} className="ml-3 font-bold">
                             {items.label}
                           </label>
                         </>

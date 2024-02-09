@@ -8,6 +8,7 @@ import Footer from "./Component/Footer";
 import { Provider } from "react-redux";
 import { store } from "./utils/store";
 import Create from "./Component/Create";
+import DisplayUserInfo from "./Component/DisplayUserInfo";
 
 const App = () => {
   return (
@@ -43,6 +44,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "/create",
         element: <Create />,
+      },
+      {
+        path: "/displayUser",
+        element: <DisplayUserInfo/>
       },
     ],
   },
