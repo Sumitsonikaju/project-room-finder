@@ -35,20 +35,20 @@ const Footer = () => {
               Community standards
             </a>
           </div>
-          <div class=" mb-10 flex justify-end gap-x-5 text-xl">
-            <a href="" class="underline-orange-500">
+          <div className=" mb-10 flex justify-end gap-x-5 text-xl">
+            <a href="" className="underline-orange-500">
               Help
             </a>
-            <a href="" class="underline-orange-500">
+            <a href="" className="underline-orange-500">
               Team
             </a>
-            <a href="" class="underline-orange-500">
+            <a href="" className="underline-orange-500">
               Blog
             </a>
-            <a href="" class="underline-orange-500">
+            <a href="" className="underline-orange-500">
               Terms
             </a>
-            <a href="" class="underline-orange-500">
+            <a href="" className="underline-orange-500">
               Privacy
             </a>
           </div>

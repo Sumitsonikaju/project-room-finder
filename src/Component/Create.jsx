@@ -1,26 +1,38 @@
-import React, { useState, useEffect, useRef } from "react";
-// import Autosuggest from "react-autosuggest";
+import React, { useState, useRef } from "react";
+import {
+  FoodChoice,
+  LookingFor,
+  Occupation,
+  checkBoxFields,
+  Gender,
+  Habits,
+} from "../utils/constant";
+import { useSelector } from "react-redux";
+import { firestore } from "../utils/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 const Create = () => {
+  const navigate = useNavigate();
+  const user = useSelector((store) => store.user);
   const [suggestions, setSuggestions] = useState([]);
+  const [occupation, setOccupation] = useState("");
+  const [foodChoice, setFoodChoice] = useState("");
+  const [lookingForVal, setlookingForVal] = useState("");
+  const [gender, setgender] = useState("");
   const [location_search, setLocationSearch] = useState("");
+  const [email, setEmail] = useState(user === null ? "NA" : user.email);
   const name = useRef(null);
-  const email = useRef(null);
   const budget = useRef(null);
   const age = useRef(null);
   const date = useRef(null);
-  const occupation = useRef(null);
 
   const apiKey = "81c244c254ba4bfe82ea4f10f5100beb";
   const geoapifyAutocompleteEndpoint = `https://api.geoapify.com/v1/geocode/autocomplete?apiKey=${apiKey}`;
 
-
-  // prevent the form for refreshing
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-   
-  // calling data api 
+  // calling data api
   const handletoggle = async (e) => {
     try {
       setLocationSearch(e.currentTarget.value);
@@ -43,245 +55,252 @@ const Create = () => {
     }
   };
 
+  // upload the data to the firebase 
+  const handleData = async () => {
+
+    if(name.current.value === "" && date.current.value === "" && location_search === "" &&  gender === ""&& lookingForVal === "" ){
+       toast.error("Please Fill out All fields", {
+        position:"top-center",
+        autoClose:1000,
+        hideProgressBar:false
+      })
+    }
+    else{
+      toast.success("Successfully Data Uploaded", {
+        position:"bottom-center",
+        autoClose: 1000,
+        hideProgressBar:false
+      })
+      await addDoc(collection(firestore, "users"), {
+        userName: name.current.value,
+        Age: age.current.value,
+        budget: budget.current.value,
+        date: date.current.value,
+        Occupation: occupation,
+        FoodChoices: foodChoice,
+        gender: gender,
+        location: location_search,
+        email: user.email,
+        uid: user.uid,
+        looking: lookingForVal,
+      });
+      navigate("/mainPage")
+    }
+   
+    setOccupation("");
+    setFoodChoice("");
+    setlookingForVal("");
+    setgender("");
+    setLocationSearch("");
+    setEmail(user === null ? "NA" : user.email);
+    name.current.value = "";
+    budget.current.value = "";
+    age.current.value = "";
+    date.current.value = "";
+  };
+
+  // getting the search values we want specific city
+  const getValue = (id) => {
+    const filter = suggestions.filter((items) => {
+      return items.properties.place_id === id;
+    });
+    setLocationSearch(filter[0]?.properties?.formatted);
+    document.getElementById("searchResult").style.display = "none";
+  };
   return (
-    <div className="bg-gray-50 flex flex-col min-h-screen ">
-      <div className="container py-6">
-        <div className="max-w-lg mx-auto py-8 mb-6">
-          <h1 className="text-blue-500 font-bold">Roommate Information Form</h1>
-          <p>Create your roommate profile for a room.</p>
-        </div>
-
-        <form onSubmit={(e) => e.preventDefault()}>
-          <div className="space-y-8">
-            <div className="max-w-xl mx-auto border relative flex-col pl-10 pr-10 py-6 rounded-md shadow-md">
-              <label className="font-semibold ">Search location:</label>
-              <input
-                value={location_search}
-                onChange={(e) => handletoggle(e)}
-                type="text"
-                className="block create-input "
-                placeholder="enter the location"
-              />
-           {suggestions.length > 0 ? <div className="absolute top-25 bg-orange-400 overflow-y-scroll w-[85%] rounded-md h-[20vh]">
-                  {suggestions.map((items) => {
-                    return (
-                      <>
-                        <h1>{items.properties.formatted}</h1>
-                      </>
-                    );
-                  })}
-                </div> : ""}
-              <br />
-
-              <label className="font-semibold">
-                Budget:
-                <input
-                  type="number"
-                  name="budget"
-                  className="block create-input"
-                  placeholder="$"
-                  ref={budget}
-                  required
-                />
-              </label>
-              <br />
-            </div>
-            <div className="max-w-xl mx-auto border flex-col pl-10 pr-10 py-6 rounded-md shadow-md">
-              <label className="font-semibold">
-                Name:
-                <input
-                  type="text"
-                  name="name"
-                  className="block create-input"
-                  ref={name}
-                  required
-                />
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Email:
-                <input
-                  type="email"
-                  name="email"
-                  className="block create-input"
-                  ref={email}
-                  required
-                />
-              </label>
-              <br />
-            </div>
-            <div className="max-w-xl mx-auto border flex-col pl-10 pr-10 py-6 rounded-md shadow-md">
-              <label className="font-semibold">
-                Looking for:
-                <select
-                  name="lookingFor"
-                  className="block create-input"
-                  required
-                >
-                  <option value="For myself">For myself</option>
-                  <option value="As a couple">As a couple</option>
-                  <option value="As a group of friends">
-                    As a group of Friends
-                  </option>
-                </select>
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Gender:
-                <select
-                  name="gender"
-                  className="block create-input"
-                  required
-                >
-                  <option value="Female">Female</option>
-                  <option value="Male">Male</option>
-                  <option value="Other">Other</option>
-                </select>
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Age:
-                <input
-                  type="number"
-                  name="age"
-                  className="block create-input"
-                  ref={age}
-                  required
-                />
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Preferred Move Date:
-                <input
-                  type="date"
-                  name="moveDate"
-                  className="block create-input"
-                 ref={date}
-                  required
-                />
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Occupation:
-                <input
-                  type="text"
-                  name="occupation"
-                  className="block create-input"
-                  ref={occupation}
-                />
-              </label>
-              <br />
-
-              <label className="font-semibold">
-                Children:
-                <select
-                  name="children"
-                  className="block create-input"
-                  required
-                >
-                  <option value="noChild">No Children</option>
-                  <option value="chVisit">Children that will Visit</option>
-                  <option value="chWithMe">
-                    Children that will live with me
-                  </option>
-                </select>
-              </label>
-              <br />
-            </div>
-            <div className="max-w-xl mx-auto border flex-col pl-10 pr-10 py-6 rounded-md shadow-md">
-              <label className="font-semibold">
-                Choice:
-                <label>
-                  <input
-                    type="checkbox"
-                    name="choice1"
-                    value="nonSmoker"
-                  />
-                  <span className="pl-4">Non-smoker 🚭</span>
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="checkbox"
-                    name="choice2"
-                    value="catOwner"
-                  />
-                  <span className="pl-4">I have a cat 🐱</span>
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="checkbox"
-                    name="choice3"
-                    value="dogOwner"
-                  />
-                  <span className="pl-4">I have a dog 🐶</span>
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="checkbox"
-                    name="choice4"
-                    value="student"
-                  />
-                  <span className="pl-4">I'm a student 🎓</span>
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="checkbox"
-                    name="choice5"
-                    value="lgbtFriendly"
-                  />
-                  <span className="pl-4">LGBT+ friendly 🏳️‍🌈</span>
-                </label>
-              </label>
-              <br />
-              <br />
-              <label className="font-semibold">
-                Food:
-                <select
-                  name="gender"
-                  className="block create-input"
-                  required
-                >
-                  <option value="Veg">Veg</option>
-                  <option value="Non-Veg">Non-Veg</option>
-                  <option value="omnivore">omnivore</option>
-                </select>
-              </label>
-              <br />
-
-              <button
-                type="submit"
-                className="px-[12.2rem] border rounded-md py-2 bg-blue-500 text-white font-bold cursor-pointer"
-              >
-                Create Profile
-              </button>
-            </div>
+    <>
+    <ToastContainer />
+      <div className="bg-gray-50 flex flex-col min-h-screen ">
+        <div className="container py-6">
+          <div className="max-w-lg mx-auto py-8 mb-1">
+            <h1 className="text-blue-500 font-bold">
+              Roommate Information Form
+            </h1>
+            <p>Create your roommate profile for a room.</p>
           </div>
-        </form>
+
+          <form onSubmit={(e) => e.preventDefault()}>
+            <div className="space-y-8">
+              <div className="max-w-xl mx-auto border relative flex-col pl-10 pr-10 py-6 rounded-md shadow-md ">
+                <label className="font-semibold  ">Search location:</label>
+                <input
+                  value={location_search}
+                  onChange={(e) => handletoggle(e)}
+                  type="search"
+                  className="block create-input "
+                  placeholder="enter the location"
+                />
+                {suggestions.length > 0 ? (
+                  <>
+                    <div
+                      className="absolute top-25 bg-gray-300 overflow-y-scroll w-[85%] rounded-md h-[20vh] text-lg"
+                      id="searchResult"
+                    >
+                      {suggestions.map((items) => {
+                        return (
+                          <>
+                            <ul>
+                              <li
+                                onClick={() =>
+                                  getValue(items.properties.place_id)
+                                }
+                                className="ml-3 hover:bg-yellow-50 cursor-pointer"
+                              >
+                                {items.properties.formatted}
+                              </li>
+                            </ul>
+                          </>
+                        );
+                      })}
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+
+                <div>
+                  <div className="mt-4">
+                    <label htmlFor="">Budget</label>
+                    <input
+                      ref={budget}
+                      className="block create-input"
+                      type="number"
+                      placeholder="$"
+                    />
+                  </div>
+
+                  <div className="mt-5">
+                    <label htmlFor="">I'm Looking for</label>
+                    <select
+                      onChange={(e) => setlookingForVal(e.currentTarget.value)}
+                      className="block create-input"
+                    >
+                      {LookingFor.map((items) => {
+                        return (
+                          <option value={items.value}>{items.text}</option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className="mt-4">
+                    <label>Gender : </label>
+                    <select
+                      value={gender}
+                      onChange={(e) => setgender(e.currentTarget.value)}
+                      className="block create-input"
+                    >
+                      {Gender.map((items) => {
+                        return (
+                          <option value={items.value}>{items.value}</option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className="mt-4">
+                    <label>Full Name</label>
+                    <input
+                      ref={name}
+                      className="block create-input"
+                      type="text"
+                      placeholder="your name"
+                    />
+                  </div>
+                  <div className="mt-4">
+                    <label>Email</label>
+                    <input
+                      readOnly
+                      value={email}
+                      className="block create-input"
+                      type="email"
+                      placeholder="your name"
+                    />
+                  </div>
+                  <div className="mt-4">
+                    <label htmlFor="">Age</label>
+                    <input
+                      ref={age}
+                      className="block create-input"
+                      type="number"
+                    />
+                  </div>
+                  <div className="mt-4">
+                    <label htmlFor="">Date</label>
+                    <input
+                      ref={date}
+                      className="block create-input"
+                      type="date"
+                    />
+                  </div>
+                  <div className="mt-4">
+                    <label htmlFor="">Occupation</label>
+                    <select
+                      value={occupation}
+                      onChange={(e) => setOccupation(e.currentTarget.value)}
+                      className="block create-input"
+                      name=""
+                      id=""
+                    >
+                      {Occupation.map((items) => {
+                        return (
+                          <option key={items.id} value={items.value}>
+                            {items.value}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className="mt-4">
+                    <label htmlFor="">Food</label>
+                    <select
+                      value={foodChoice}
+                      onChange={(e) => setFoodChoice(e.currentTarget.value)}
+                      className="create-input block"
+                      name=""
+                      id=""
+                    >
+                      {FoodChoice.map((items) => {
+                        return (
+                          <option key={items.id} value={items.value}>
+                            {items.value}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+
+                  <div className="mt-4">
+                    <label htmlFor="habits">Habit</label>
+                    {Habits.map((items) => {
+                      return (
+                        <>
+                          <br />
+                          <input
+                            type="checkbox"
+                            name=""
+                            id={items.id}
+                            value={items.value}
+                          />
+                          <label htmlFor="" className="ml-3 font-bold">
+                            {items.label}
+                          </label>
+                        </>
+                      );
+                    })}
+                  </div>
+                </div>
+                <button
+                  onClick={handleData}
+                  className="px-[12.2rem] mt-4 border rounded-md py-2 bg-blue-500 text-white font-bold cursor-pointer"
+                >
+                  Create Profile
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
 export default Create;
-
-// <Autosuggest
-// {...autosuggestProps}
-// inputProps={{
-//   type: "text",
-//   name: "location",
-//   className: "block create-input",
-//   placeholder: "Enter the location...",
-//   value: formData.location,
-//   onChange: handleChange,
-//   required: true,
-// }}
-// />
