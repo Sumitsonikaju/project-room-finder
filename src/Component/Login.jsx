@@ -43,8 +43,11 @@ const Login = () => {
             Welcome to the Room Buddy
           </h1>
           <h1 className="text-center mt-1 font-bold">
-            Find your Best Room Mates
+            Find your Perfect Room Mate Here
           </h1>
+          <p className="text-center">
+            Please login to start your search
+          </p>
           <form className="mt-5">
             <label>Email</label>
             <input
@@ -71,7 +74,7 @@ const Login = () => {
           </button>
           <p className="text-center font-bold mt-4">
             Don't have an Account ?{" "}
-            <Link className="hover:underline" to={"/signup"}>
+            <Link className="hover:underline text-blue-500" to={"/signup"}>
               Sign up
             </Link>{" "}
           </p>

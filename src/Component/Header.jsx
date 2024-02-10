@@ -42,6 +42,7 @@ const Header = () => {
   const isCreatePage = location.pathname === "/Create";
   const isHomePage = location.pathname === "/mainPage";
   const isDisplayUserInfo = location.pathname === "/displayUser";
+  const isLogin = location.pathname === "/";
 
   return (
     <>
@@ -62,12 +63,15 @@ const Header = () => {
         {user && <h2>I am, <span className="font-bold text-blue-500">{user.displayName}</span></h2>}
 
 
-          {!user && (
+          {!user && !isLogin && (
             <>
               <Link to={"/"}>
                 <button className="font-bold cursor-pointer">Login</button>
               </Link>
-
+            </>
+            )}
+            {!user && (
+            <>
               <Link to={"/signup"}>
                 {" "}
                 <button className="border px-3 py-2 bg-purple-400 text-white font-bold rounded-md">
@@ -75,7 +79,8 @@ const Header = () => {
                 </button>
               </Link>
             </>
-          )}
+            )}
+          
           {user && !isDisplayUserInfo && (
             <Link to={"/displayUser"}>
               <button className="font-bold cursor-pointer">
