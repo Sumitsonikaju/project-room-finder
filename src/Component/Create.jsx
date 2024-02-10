@@ -25,6 +25,8 @@ const Create = () => {
   const [gender, setgender] = useState("");
   const [location_search, setLocationSearch] = useState("");
   const [email, setEmail] = useState(user === null ? "NA" : user.email);
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [mobileNumberError, setMobileNumberError] = useState("");
   const name = useRef(null);
   const budget = useRef(null);
   const age = useRef(null);
@@ -57,6 +59,17 @@ const Create = () => {
     }
   };
 
+
+  // Validate mobile number
+  const validateMobileNumber = () => {
+    const regex = /^[0-9]{10}$/; // Simple validation for a 10-digit mobile number
+    if (!regex.test(mobileNumber)) {
+      setMobileNumberError("Please enter a valid 10-digit mobile number.");
+      return false;
+    }
+    setMobileNumberError("");
+    return true;
+  };
   const handleCheckboxChange = (habitValue) => {
     // Check if the habitValue is already in the selectedHabits array
     if (selectedHabits.includes(habitValue)) {
@@ -81,7 +94,8 @@ const Create = () => {
       location_search === "" &&
       gender === "" &&
       lookingForVal === "" &&
-      description.current.value === ""
+      description.current.value === "" &&
+      mobileNumber.current.value === ""
     ) {
       toast.error("Please Fill out All fields", {
         position: "top-center",
@@ -104,6 +118,7 @@ const Create = () => {
         gender: gender,
         location: location_search,
         email: user.email,
+        mobileNumber: mobileNumber.current.value,
         uid: user.uid,
         looking: lookingForVal,
         habits: selectedHabits,
@@ -118,6 +133,7 @@ const Create = () => {
     setgender("");
     setLocationSearch("");
     setEmail(user === null ? "NA" : user.email);
+    mobileNumber.current.value = "";
     name.current.value = "";
     budget.current.value = "";
     age.current.value = "";
@@ -136,7 +152,7 @@ const Create = () => {
   return (
     <>
       <ToastContainer />
-      <div className="bg-gray-50 flex flex-col min-h-screen ">
+      <div className="bg-gray-50 flex flex-col min-h-screen pt-20">
         <div className="container py-6">
           <div className="max-w-lg mx-auto py-8 mb-1">
             <h1 className="text-blue-500 font-bold">
@@ -242,6 +258,22 @@ const Create = () => {
                     />
                   </div>
                   <div className="mt-4">
+                  <label htmlFor="">Mobile Number</label>
+                  <input
+                    className="block create-input"
+                    type="tel"
+                    placeholder="Enter your mobile number"
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value)}
+                    onBlur={validateMobileNumber}
+                  />
+                  {mobileNumberError && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {mobileNumberError}
+                    </p>
+                  )}
+                </div>
+                  <div className="mt-4">
                     <label htmlFor="">Age</label>
                     <input
                       ref={age}
@@ -250,7 +282,7 @@ const Create = () => {
                     />
                   </div>
                   <div className="mt-4">
-                    <label htmlFor="">Date</label>
+                    <label htmlFor="">Date to Move</label>
                     <input
                       ref={date}
                       className="block create-input"

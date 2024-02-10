@@ -19,8 +19,8 @@ const Main = () => {
   
   return (
     <>
-    <div className="flex justify-center items-center h-[40vh] pt-28">
-      <section className="text-center mb-12">
+    <div className="flex justify-center items-center h-auto pt-24 shadow-md">
+      <section className="text-center mb-5 ">
         <h1 className="text-5xl font-bold mb-4 text-blue-500">
           Welcome to Room Buddy
         </h1>
@@ -38,7 +38,7 @@ const Main = () => {
         </p>
 
         <Link to={"/Create"}>
-            <button className="font-bold cursor-pointer border px-3 py-2 bg-blue-500  text-white mt-5 rounded-md shadow-lg">Complete Your Profile</button> 
+            <button className="font-bold cursor-pointer border px-3 py-2 bg-blue-500  text-white mt-5 rounded-md shadow-lg">Create A Request</button> 
           </Link>
       </section>
     </div>

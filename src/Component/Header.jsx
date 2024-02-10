@@ -56,7 +56,7 @@ const Header = () => {
           <input
             className="bg-gray-100 w-[30rem] outline-none rounded-md px-2 py-1 "
             type="text"
-            placeholder="search your person....."
+            placeholder="search your location....."
           />
         )}
         <ul className="flex space-x-4 items-center">
@@ -76,7 +76,7 @@ const Header = () => {
           )}
 {user && !isDisplayUserInfo && (
             <Link to={"/displayUser"}>
-              <button className="font-bold cursor-pointer">User Info</button>
+              <button className="font-bold cursor-pointer">Listed Roommates</button>
             </Link>
           )}
           {user && !isCreatePage && (
