@@ -43,7 +43,6 @@ const Header = () => {
   const isHomePage = location.pathname === "/mainPage";
   const isDisplayUserInfo = location.pathname === "/displayUser";
 
-
   return (
     <>
       <nav className="flex justify-between fixed w-full items-center px-10 z-40 min-h-[8vh] bg-white shadow-md">
@@ -60,6 +59,9 @@ const Header = () => {
           />
         )}
         <ul className="flex space-x-4 items-center">
+        {user && <h2>I am, <span className="font-bold text-blue-500">{user.displayName}</span></h2>}
+
+
           {!user && (
             <>
               <Link to={"/"}>
@@ -74,9 +76,11 @@ const Header = () => {
               </Link>
             </>
           )}
-{user && !isDisplayUserInfo && (
+          {user && !isDisplayUserInfo && (
             <Link to={"/displayUser"}>
-              <button className="font-bold cursor-pointer">Listed Roommates</button>
+              <button className="font-bold cursor-pointer">
+                Listed Roommates
+              </button>
             </Link>
           )}
           {user && !isCreatePage && (

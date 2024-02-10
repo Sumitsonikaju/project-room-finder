@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { firestore } from "../utils/firebase";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
+import ShowDetails from "./ShowDetails";
 import profileImg from "../image/profilePlaceHolder.png";
 
 const DisplayUserInfo = () => {
   const [usersData, setUsersData] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -27,7 +29,17 @@ const DisplayUserInfo = () => {
     fetchData();
   }, []);
 
+  const handleMoreDetailsClick = (user) => {
+    setSelectedUser(user);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedUser(null);
+  };
+
   const isDisplayUserInfo = location.pathname === "/displayUser";
+    const isMainPage = location.pathname === "/mainPage";
+
 
   return (
     <div className=" min-h-40">
@@ -37,7 +49,7 @@ const DisplayUserInfo = () => {
           Available Roommates
         </h1>
       )}
-      {!isDisplayUserInfo && (
+       {isMainPage && (
         <h1 className="text-center pb-10 font-bold text-orange-500 pt-5">
           Featured Roommates
         </h1>
@@ -47,7 +59,7 @@ const DisplayUserInfo = () => {
         {usersData.map((user) => (
           <div
             key={user.id}
-            className="bg-white shadow-lg  border-2 rounded-md p-4 mb-4 flex flex-col min-w-96 mx-5 hover:shadow-blue-500/30 transition duration-300 ease-in-out cursor-pointer"
+            className="bg-white shadow-lg  border-2 rounded-md p-4 mb-4 flex flex-col min-w-96 max-w-[16rem] mx-5 hover:shadow-blue-500/30 transition duration-300 ease-in-out cursor-pointer"
           >
             <div className="flex items-center">
               <img
@@ -93,11 +105,11 @@ const DisplayUserInfo = () => {
                 </tr>
                 <tr>
                   <td colSpan={3} className=" text-center">
-                  <Link to={"/Create"}>
-                    <button className="font-bold cursor-pointer border px-3  bg-blue-500 mt-2 text-white rounded-md shadow-lg hover:bg-blue-600" id = {user.uid}>
+                  
+                    <button className="font-bold cursor-pointer border px-3  bg-blue-500 mt-2 text-white rounded-md shadow-lg hover: border-blue-500 hover:bg-white hover:text-blue-500" onClick={() => handleMoreDetailsClick(user)} id = {user.uid} >
                       More Details
                     </button>
-                    </Link>
+                    
                   </td>
                 </tr>
               </table>
@@ -105,6 +117,12 @@ const DisplayUserInfo = () => {
           </div>
         ))}
       </div>
+      {selectedUser && (
+        <ShowDetails
+          user={selectedUser}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

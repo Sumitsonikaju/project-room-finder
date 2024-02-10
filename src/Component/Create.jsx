@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   FoodChoice,
   LookingFor,
@@ -12,6 +12,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+
 
 
 const Create = () => {
@@ -32,9 +33,27 @@ const Create = () => {
   const age = useRef(null);
   const date = useRef(null);
   const description = useRef(null);
+  const suggestionRef = useRef(null);
+
 
   const apiKey = "81c244c254ba4bfe82ea4f10f5100beb";
   const geoapifyAutocompleteEndpoint = `https://api.geoapify.com/v1/geocode/autocomplete?apiKey=${apiKey}`;
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
+        // Click outside suggestion div
+        setSuggestions([]);
+      }
+    };
+  
+    document.addEventListener("mousedown", handleClickOutside);
+  
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [suggestionRef]);
+  
 
   // calling data api
   const handletoggle = async (e) => {
@@ -95,7 +114,7 @@ const Create = () => {
       gender === "" &&
       lookingForVal === "" &&
       description.current.value === "" &&
-      mobileNumber.current.value === ""
+      mobileNumber === ""
     ) {
       toast.error("Please Fill out All fields", {
         position: "top-center",
@@ -118,7 +137,7 @@ const Create = () => {
         gender: gender,
         location: location_search,
         email: user.email,
-        mobileNumber: mobileNumber.current.value,
+        mobileNumber: mobileNumber,
         uid: user.uid,
         looking: lookingForVal,
         habits: selectedHabits,
@@ -133,7 +152,7 @@ const Create = () => {
     setgender("");
     setLocationSearch("");
     setEmail(user === null ? "NA" : user.email);
-    mobileNumber.current.value = "";
+    setMobileNumber("");
     name.current.value = "";
     budget.current.value = "";
     age.current.value = "";
@@ -146,7 +165,10 @@ const Create = () => {
     const filter = suggestions.filter((items) => {
       return items.properties.place_id === id;
     });
-    setLocationSearch(filter[0]?.properties?.formatted);
+    setLocationSearch(
+      `${filter[0]?.properties?.city}, ${filter[0]?.properties?.state}, ${filter[0]?.properties?.country}, ${filter[0]?.properties?.postcode}`
+    );
+    
     document.getElementById("searchResult").style.display = "none";
   };
   return (
@@ -176,7 +198,7 @@ const Create = () => {
                   <>
                     <div
                       className="absolute top-25 bg-gray-300 overflow-y-scroll w-[85%] rounded-md h-[20vh] text-lg"
-                      id="searchResult"
+                      id="searchResult" ref={suggestionRef}
                     >
                       {suggestions.map((items) => {
                         return (
@@ -188,7 +210,7 @@ const Create = () => {
                                 }
                                 className="ml-3 hover:bg-yellow-50 cursor-pointer"
                               >
-                                {items.properties.formatted}
+                                {`${items.properties.city}, ${items.properties.state}, ${items.properties.country}, ${items.properties.postcode}`}
                               </li>
                             </ul>
                           </>
@@ -344,12 +366,13 @@ const Create = () => {
                     ))}
                   </div>
                   <div className="mt-4">
-                    <label htmlFor="">Short Description</label>
+                    <label htmlFor="">Description</label>
                     <div id="textareaContainer">
                     <textarea
                       ref={description}
-                      className="block create-input"
+                      className="block border-2 w-64 rounded-md"
                       type="textarea"
+                      placeholder="Enter short description of yourself"
                     />
                     </div>
                   </div>
