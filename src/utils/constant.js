@@ -14,8 +14,8 @@ export const Habits = [
   {
     id: 3,
     type: "checkbox",
-    label: "LGBT+ friendly 🏳️‍🌈",
-    value: "LGBT+ friendly 🏳️‍🌈"
+    label: "Music🎶",
+    value: "Music🎶"
   },
 ];
 

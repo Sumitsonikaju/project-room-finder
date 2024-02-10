@@ -86,7 +86,7 @@ const SignUp = () => {
   return (
     <>
       <ToastContainer />
-      <div className="login-container flex justify-center items-center h-[80vh]">
+      <div className="login-container flex justify-center items-center h-[80vh] pt-24">
         <div className="w-[25rem]">
           <h1 className="text-center text-2xl font-bold ">
             Welcome to the Room Buddy
