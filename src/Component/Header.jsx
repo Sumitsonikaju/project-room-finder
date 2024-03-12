@@ -67,8 +67,6 @@ const Header = () => {
         )}
         <ul className="flex space-x-4 items-center max-md:hidden">
         {user && <h2>I am, <span className="font-bold text-blue-500">{user.displayName}</span></h2>}
-
-
           {!user && !isLogin && (
             <>
               <Link to={"/"}>

@@ -1,17 +1,21 @@
 import React, { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { adduser } from "../utils/userSlice";
+import { provider } from "../utils/firebase";
 
 const Login = () => {
   const dispatch = useDispatch();
   const email = useRef(null);
   const password = useRef(null);
-  const navigate = useNavigate();
   const handleLogin = () => {
     signInWithEmailAndPassword(
       auth,
@@ -19,12 +23,14 @@ const Login = () => {
       password.current.value
     )
       .then((userCredential) => {
-        const {uid, email, displayName} = userCredential.user
-        dispatch(adduser({
-          uid:uid,
-          email:email,
-          displayName:displayName
-        }))
+        const { uid, email, displayName } = userCredential.user;
+        dispatch(
+          adduser({
+            uid: uid,
+            email: email,
+            displayName: displayName,
+          })
+        );
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -32,6 +38,30 @@ const Login = () => {
         toast(`${errorCode} - ${errorMessage}`, {
           position: "top-center",
         });
+      });
+  };
+
+  const handleLoginWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+        const { uid, email, displayName } = user;
+        dispatch(
+          adduser({
+            uid: uid,
+            email: email,
+            displayName: displayName,
+          })
+        );
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
       });
   };
   return (
@@ -45,9 +75,7 @@ const Login = () => {
           <h1 className="text-center mt-1 font-bold">
             Find your Perfect Room Mate Here
           </h1>
-          <p className="text-center">
-            Please login to start your search
-          </p>
+          <p className="text-center">Please login to start your search</p>
           <form className="mt-5">
             <label>Email</label>
             <input
@@ -71,6 +99,12 @@ const Login = () => {
             className="border px-2 py-1 w-full mt-4 cursor-pointer bg-purple-400 text-white font-bold "
           >
             Login
+          </button>
+          <button
+            onClick={handleLoginWithGoogle}
+            className="border px-2 py-1 w-full mt-4 cursor-pointer bg-purple-400 text-white font-bold "
+          >
+            Login with Google
           </button>
           <p className="text-center font-bold mt-4">
             Don't have an Account ?{" "}
