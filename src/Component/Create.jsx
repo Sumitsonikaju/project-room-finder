@@ -13,9 +13,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
-
-
 const Create = () => {
+
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   const [suggestions, setSuggestions] = useState([]);
