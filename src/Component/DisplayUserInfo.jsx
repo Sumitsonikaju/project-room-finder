@@ -38,28 +38,29 @@ const DisplayUserInfo = () => {
   };
 
   const isDisplayUserInfo = location.pathname === "/displayUser";
-    const isMainPage = location.pathname === "/mainPage";
-
+  const isMainPage = location.pathname === "/mainPage";
 
   return (
-    <div className=" min-h-40">
-        <div >
-      {isDisplayUserInfo && (
-        <h1 className="pt-28 text-center pb-10 font-bold">
-          Available Roommates
-        </h1>
-      )}
-       {isMainPage && (
-        <h1 className="text-center pb-10 font-bold text-orange-500 pt-5">
-          Featured Roommates
-        </h1>
-      )}
+   <>
+   <div className="px-5 h-screen py-5">
+   <div className="h-screen">
+      <div>
+        {isDisplayUserInfo && (
+          <h1 className="pt-28 text-center pb-10 font-bold">
+            Available Roommates
+          </h1>
+        )}
+        {isMainPage && (
+          <h1 className="text-center pb-10 font-bold text-orange-500 pt-5">
+            Featured Roommates
+          </h1>
+        )}
       </div>
-      <div className="flex flex-wrap justify-evenly">
+      <div className="grid grid-cols-3 w-[70%] max-md:grid-cols-2 max-sm:grid-cols-1 max-md:gap-x-9  gap-x-5 gap-y-5 justify-items-center mx-auto ">
         {usersData.map((user) => (
           <div
             key={user.id}
-            className="bg-white shadow-lg  border-2 rounded-md p-4 mb-4 flex flex-col min-w-96 max-w-[16rem] mx-5 hover:shadow-blue-500/30 transition duration-300 ease-in-out cursor-pointer"
+            className="bg-white shadow-lg  border-2 rounded-md p-4 mb-4 flex flex-col w-[20rem]  mx-5 hover:shadow-blue-500/30 transition duration-300 ease-in-out cursor-pointer"
           >
             <div className="flex items-center">
               <img
@@ -105,11 +106,13 @@ const DisplayUserInfo = () => {
                 </tr>
                 <tr>
                   <td colSpan={3} className=" text-center">
-                  
-                    <button className="font-bold cursor-pointer border px-3  bg-blue-500 mt-2 text-white rounded-md shadow-lg hover: border-blue-500 hover:bg-white hover:text-blue-500" onClick={() => handleMoreDetailsClick(user)} id = {user.uid} >
+                    <button
+                      className="font-bold cursor-pointer border px-3  bg-blue-500 mt-2 text-white rounded-md shadow-lg hover: border-blue-500 hover:bg-white hover:text-blue-500"
+                      onClick={() => handleMoreDetailsClick(user)}
+                      id={user.uid}
+                    >
                       More Details
                     </button>
-                    
                   </td>
                 </tr>
               </table>
@@ -118,12 +121,11 @@ const DisplayUserInfo = () => {
         ))}
       </div>
       {selectedUser && (
-        <ShowDetails
-          user={selectedUser}
-          onClose={handleCloseModal}
-        />
+        <ShowDetails user={selectedUser} onClose={handleCloseModal} />
       )}
     </div>
+   </div>
+   </>
   );
 };
 
