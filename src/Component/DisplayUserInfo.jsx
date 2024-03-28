@@ -42,8 +42,8 @@ const DisplayUserInfo = () => {
 
   return (
    <>
-   <div className="px-5 h-screen py-5">
-   <div className="h-screen">
+   <div className="px-5 h-screen py-5 ">
+   <div className="h-screen ">
       <div>
         {isDisplayUserInfo && (
           <h1 className="pt-28 text-center pb-10 font-bold">
@@ -56,7 +56,7 @@ const DisplayUserInfo = () => {
           </h1>
         )}
       </div>
-      <div className="grid grid-cols-3 w-[70%] max-md:grid-cols-2 max-sm:grid-cols-1 max-md:gap-x-9  gap-x-5 gap-y-5 justify-items-center mx-auto ">
+      <div className="grid grid-cols-3 w-[70%] max-md:grid-cols-2 max-sm:grid-cols-1 max-md:gap-x-9 gap-x-5 gap-y-5 justify-items-center mx-auto ">
         {usersData.map((user) => (
           <div
             key={user.id}
