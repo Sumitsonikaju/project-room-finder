@@ -96,22 +96,22 @@ const Login = () => {
           </form>
           <button
             onClick={handleLogin}
-            className="border px-2 py-1 w-full mt-4 cursor-pointer bg-purple-400 text-white font-bold "
+            className="border px-4 py-2 gap-2 w-full mt-4 text-lg cursor-pointer rounded-lg bg-purple-400 text-white font-bold hover:bg-purple-500"
           >
             Login
           </button>
           
 
-          <button className="px-4 py-2 mt-4 w-full pl-[30%] border flex gap-2 cursor-pointer  border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+          <button className="px-4 py-2 mt-4 w-full pl-[30%] border flex gap-2 cursor-pointer border-[#4889f4]  rounded-lg text-slate-700  hover:bg-[#4889f4] hover:border-white font-bold hover:text-white  hover:shadow transition duration-150"
           onClick={handleLoginWithGoogle}
           >
             <img
-              className="w-6 h-6"
+              className="w-6 h-6 "
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               loading="lazy"
               alt="google logo"
             />
-            <span className="text-black">Login with Google</span>
+            <span className="">Login with Google</span>
           </button>
 
           <p className="text-center font-bold mt-4">
