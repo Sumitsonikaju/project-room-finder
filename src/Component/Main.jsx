@@ -50,7 +50,7 @@ const Main = () => {
           <DisplayUserInfo />
         </section>
         <section className="text-center">
-          <h2 className="text-3xl font-bold pt-20 text-blue-500">
+          <h2 className="text-3xl font-bold pt-24 text-blue-500">
             User Comments
           </h2>
           <Review />
